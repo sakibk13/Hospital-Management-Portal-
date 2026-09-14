@@ -1,7 +1,22 @@
 import axios from 'axios';
 import { storage } from '../../utils/storage';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/api` : 'http://localhost:5000/api');
+export const getCleanApiUrl = () => {
+    let url = process.env.NEXT_PUBLIC_API_URL || (process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/api` : 'http://localhost:5000/api');
+
+    // Upgrade http:// to https:// when loaded in HTTPS browser or non-localhost to prevent Mixed Content blocking
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:' && url.startsWith('http://') && !url.includes('localhost')) {
+        url = url.replace(/^http:\/\//i, 'https://');
+    }
+
+    url = url.trim().replace(/\/+$/, '');
+    if (!url.endsWith('/api') && !url.includes('/api/')) {
+        url = `${url}/api`;
+    }
+    return url;
+};
+
+const API_URL = getCleanApiUrl();
 
 const api = axios.create({
     baseURL: API_URL,

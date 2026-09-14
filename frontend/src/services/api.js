@@ -1,8 +1,22 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL 
-    ? `${process.env.NEXT_PUBLIC_API_URL}` 
-    : (process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/api` : 'http://localhost:5000/api');
+const resolveBaseUrl = () => {
+    let url = process.env.NEXT_PUBLIC_API_URL 
+        ? `${process.env.NEXT_PUBLIC_API_URL}` 
+        : (process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/api` : 'http://localhost:5000/api');
+
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:' && url.startsWith('http://') && !url.includes('localhost')) {
+        url = url.replace(/^http:\/\//i, 'https://');
+    }
+
+    url = url.trim().replace(/\/+$/, '');
+    if (!url.endsWith('/api') && !url.includes('/api/')) {
+        url = `${url}/api`;
+    }
+    return url;
+};
+
+const BASE_URL = resolveBaseUrl();
 
 const api = axios.create({
     baseURL: BASE_URL,

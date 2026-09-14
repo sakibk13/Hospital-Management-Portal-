@@ -20,8 +20,9 @@ ENV ASPNETCORE_URLS=http://+:8080
 
 COPY --from=build /app/publish .
 
-# Create directory for uploads
-RUN mkdir -p /app/uploads
+# Copy pre-seeded uploads into container runtime directory
+COPY uploads ./uploads
+
 
 EXPOSE 8080
 
