@@ -1,0 +1,944 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.blood-availability-page {
+  background-color: var(--hw-bg-subtle, #f8fafc);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+}
+
+.blood-availability-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Top Navigation Bar */
+.blood-avail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.blood-availability-back-button {
+  background: none;
+  border: none;
+  color: #475569 !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.blood-availability-back-button:hover {
+  color: #0f172a !important;
+  transform: translateX(-3px);
+}
+
+.avail-badge-247 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.2px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 1.8s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Hero Banner with Uploaded Image */
+.blood-avail-hero {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.blood-avail-hero-content {
+  flex: 1.25;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 14px;
+}
+
+.hero-pill .tint-icon {
+  color: #dc2626;
+}
+
+.blood-availability-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.blood-avail-hero-text {
+  font-size: 0.96rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 580px;
+}
+
+.hero-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-btn-primary {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
+}
+
+.hero-btn-secondary {
+  background: #ffffff;
+  color: #0f172a !important;
+  border: 1.5px solid #cbd5e1;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 12px 22px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.hero-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+}
+
+.blood-avail-hero-image {
+  flex: 0.85;
+  position: relative;
+  min-height: 280px;
+  background-color: #f1f5f9;
+}
+
+.blood-avail-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-image-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+}
+
+.overlay-stat {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: #ffffff;
+}
+
+.overlay-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f87171;
+  line-height: 1;
+}
+
+.overlay-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+/* Stat Metric Cards */
+.avail-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.avail-stat-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 22px 20px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avail-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stat-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+}
+
+.stat-icon-wrapper {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.stat-icon-wrapper.red { background: #fee2e2; color: #dc2626; }
+.stat-icon-wrapper.green { background: #ecfdf5; color: #059669; }
+.stat-icon-wrapper.amber { background: #fef3c7; color: #d97706; }
+.stat-icon-wrapper.blue { background: #e0f2fe; color: #0284c7; }
+
+.stat-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.stat-value .stat-unit {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.stat-value.hotline-number {
+  font-size: 1.12rem;
+  color: #0284c7 !important;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.stat-value.hotline-number:hover {
+  color: #0369a1 !important;
+  text-decoration: underline !important;
+}
+
+.stat-meta {
+  font-size: 0.78rem;
+  color: #71717a;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Toolbar Controls */
+.table-controls-bar {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.table-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+  max-width: 380px;
+}
+
+.table-search-box .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.table-search-input {
+  width: 100%;
+  padding: 10px 36px 10px 38px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #0f172a;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.table-search-input:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 0.85rem;
+}
+
+.table-sort-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.table-sort-box .sort-icon {
+  position: absolute;
+  left: 12px;
+  color: #64748b;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.table-sort-select {
+  padding: 9px 14px 9px 32px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #334155;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: auto;
+}
+
+.table-sort-select:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14);
+}
+
+.table-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.filter-pill:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.filter-pill.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.filter-pill.pill-optimal.active {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.filter-pill.pill-low.active {
+  background: #d97706;
+  border-color: #d97706;
+  color: #ffffff;
+}
+
+.refresh-data-btn {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+}
+
+.refresh-data-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Authentic Blood Block-Chart Table */
+.blood-table-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+.blood-table-header-info {
+  padding: 22px 28px;
+  border-bottom: 1.5px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.blood-table-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0 0 3px;
+  display: flex;
+  align-items: center;
+}
+
+.blood-table-subheading {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.showing-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+}
+
+.blood-availability-table-container {
+  overflow-x: auto;
+}
+
+.blood-chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.blood-chart-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 16px 24px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+
+.blood-chart-row {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.18s ease;
+}
+
+.blood-chart-row:hover {
+  background-color: #fafbfc;
+}
+
+.blood-chart-row:last-child {
+  border-bottom: none;
+}
+
+.blood-chart-table td {
+  padding: 18px 24px;
+  vertical-align: middle;
+}
+
+/* Blood Chart Block (Cell 1) */
+.blood-chart-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.blood-badge-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fee2e2;
+  border: 1.5px solid #fecaca;
+  padding: 8px 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.08);
+}
+
+.blood-badge-large .drop-emoji {
+  font-size: 1.2rem;
+}
+
+.blood-badge-large .group-letter {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #b91c1c;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.blood-block-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.blood-block-info .rh-factor {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.blood-block-info .antigen-subtext {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Status Badges */
+.chart-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chart-status-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.chart-status-badge.optimal {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+}
+.chart-status-badge.optimal .dot { background: #10b981; }
+
+.chart-status-badge.low {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  color: #b45309;
+}
+.chart-status-badge.low .dot { background: #f59e0b; }
+
+.chart-status-badge.critical {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+.chart-status-badge.critical .dot { background: #ef4444; }
+
+/* Inventory Gauge (Cell 3) */
+.chart-gauge-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 180px;
+  max-width: 250px;
+}
+
+.gauge-number-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.gauge-count-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.gauge-count {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.gauge-unit-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.gauge-volume {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+}
+
+.chart-meter-track {
+  width: 100%;
+  height: 7px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.chart-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.chart-meter-fill.fill-optimal { background: #10b981; }
+.chart-meter-fill.fill-low { background: #f59e0b; }
+.chart-meter-fill.fill-empty { background: #ef4444; }
+
+/* Compatibility Block (Cell 4) */
+.chart-compat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compat-intro {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.compat-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.blood-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 800;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* Action Button (Cell 5) */
+.chart-action-btn {
+  border: none;
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 9px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.chart-action-btn.request-btn {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.chart-action-btn.request-btn:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+.chart-action-btn.donate-btn {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1.5px solid #fecaca;
+}
+
+.chart-action-btn.donate-btn:hover {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+/* Footer Notice */
+.table-footer-notice {
+  padding: 18px 28px;
+  background: #f8fafc;
+  border-top: 1.5px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-notice-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+.footer-notice-item .notice-icon {
+  color: #059669;
+}
+
+.view-comp-link {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #dc2626 !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease;
+}
+
+.view-comp-link:hover {
+  transform: translateX(4px);
+}
+
+/* Empty & Loading States */
+.table-empty-message {
+  text-align: center;
+  padding: 48px 20px !important;
+}
+
+.table-loading-spinner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #475569;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.no-results-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.no-results-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+}
+
+.no-results-sub {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  max-width: 400px;
+}
+
+.reset-filter-btn {
+  margin-top: 8px;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.blood-availability-notification {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background-color: #fbeaec;
+  color: #b91c1c;
+  border: 1px solid #f3ccd1;
+  border-left: 4px solid #b91c1c;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 1180px) {
+  .avail-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .blood-avail-hero {
+    flex-direction: column;
+  }
+  
+  .blood-avail-hero-content {
+    padding: 24px;
+  }
+  
+  .blood-avail-hero-image {
+    min-height: 200px;
+  }
+
+  .blood-availability-title {
+    font-size: 1.7rem;
+  }
+
+  .avail-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-search-box {
+    max-width: 100%;
+  }
+
+  .table-sort-box {
+    width: 100%;
+  }
+
+  .table-sort-select {
+    width: 100%;
+  }
+
+  .table-filter-pills {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 480px) {
+  .blood-availability-page {
+    padding: 20px 12px 60px;
+  }
+
+  .blood-availability-title {
+    font-size: 1.45rem;
+  }
+
+  .blood-avail-hero-content {
+    padding: 16px 14px;
+  }
+
+  .blood-chart-table td,
+  .blood-chart-table thead th {
+    padding: 12px 14px;
+  }
+
+  .blood-badge-large {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}

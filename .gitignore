@@ -1,0 +1,102 @@
+# ==============================================================================
+# HealingWave Hospital Management Portal — Root .gitignore
+# Prevents sensitive credentials, API keys, build artifacts, and caches from git
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Secrets, Environment Files & Credentials (CRITICAL)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+!.env.example
+!.env*.example
+
+# ASP.NET Core secrets & local settings
+**/appsettings.json
+**/appsettings.*.json
+!**/appsettings.example.json
+
+# Certificates, Keys & Credentials
+*.pem
+*.key
+*.crt
+*.pfx
+*.cer
+id_rsa*
+secrets.json
+
+# ------------------------------------------------------------------------------
+# Node.js / Next.js (Frontend)
+# ------------------------------------------------------------------------------
+**/node_modules/
+**/.pnp
+.pnp.*
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/plugins
+!**/.yarn/releases
+!**/.yarn/versions
+
+# Next.js build output
+**/.next/
+**/out/
+**/build/
+**/dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# Vercel & Testing
+.vercel/
+coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+next-env.d.ts
+
+# ------------------------------------------------------------------------------
+# .NET / C# (Backend)
+# ------------------------------------------------------------------------------
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+_ReSharper*/
+
+# ------------------------------------------------------------------------------
+# Python (Scripts & Utilities)
+# ------------------------------------------------------------------------------
+**/__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env/
+
+# ------------------------------------------------------------------------------
+# Operating System & IDE Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+*.sublime-project

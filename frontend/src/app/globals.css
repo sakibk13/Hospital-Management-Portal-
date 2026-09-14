@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "../components/styles/Toast.css";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --hw-primary: #1b1f24;
+  --hw-primary-dark: #0c0e11;
+  --hw-primary-light: #3b424b;
+  --hw-primary-50: #f6f7f8;
+  --hw-primary-100: #eceef0;
+
+  --hw-teal: #2f6f6b;
+  --hw-emergency: #c1121f;
+  --hw-success: #2a9d5c;
+  --hw-warning: #d98a00;
+
+  --hw-ink: #16191d;
+  --hw-ink-soft: #444a52;
+  --hw-muted: #777f88;
+  --hw-border: #e7e9ec;
+  --hw-bg: #ffffff;
+  --hw-bg-subtle: #f7f8f9;
+  --hw-bg-tint: #f1f2f4;
+
+  --hw-radius: 12px;
+  --hw-radius-sm: 8px;
+  --hw-shadow: 0 1px 3px rgba(16, 19, 23, 0.06), 0 1px 2px rgba(16, 19, 23, 0.04);
+  --hw-shadow-md: 0 8px 24px rgba(16, 19, 23, 0.08);
+  --hw-transition: 0.2s ease;
+}
+
+html {
+  color-scheme: light only;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Helvetica Neue', Arial, sans-serif;
+  color: var(--hw-ink);
+  background-color: var(--hw-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Responsive Media & Performance */
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Touch & tap targets */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+
+/* Smooth momentum scrolling for touch */
+* {
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+

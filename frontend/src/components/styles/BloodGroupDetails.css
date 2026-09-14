@@ -1,0 +1,767 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.blood-group-details-page {
+  background-color: var(--hw-bg-subtle, #f7f8f9);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--hw-ink, #16191d);
+}
+
+.blood-group-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Top Navigation Bar */
+.blood-group-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.blood-group-details-back-button {
+  background: none;
+  border: none;
+  color: var(--hw-ink-soft, #444a52) !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.blood-group-details-back-button:hover {
+  color: var(--hw-ink, #16191d) !important;
+  transform: translateX(-3px);
+}
+
+.transfusion-safety-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4338ca;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 6px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.2px;
+}
+
+/* Hero Banner with Uploaded Image */
+.blood-group-hero {
+  background: #ffffff;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  border-radius: 18px;
+  box-shadow: var(--hw-shadow, 0 2px 8px rgba(16, 19, 23, 0.05));
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.blood-group-hero-content {
+  flex: 1.2;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-pill-comp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #7c3aed;
+  background: #f5f3ff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 14px;
+}
+
+.blood-group-details-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.blood-group-hero-text {
+  font-size: 0.96rem;
+  color: var(--hw-ink-soft, #444a52);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 580px;
+}
+
+.hero-cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.blood-group-hero-image {
+  flex: 0.85;
+  position: relative;
+  min-height: 280px;
+  background-color: #f1f5f9;
+}
+
+.blood-group-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* View Switcher Tabs */
+.group-tabs-container {
+  display: flex;
+  gap: 10px;
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  width: fit-content;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(16, 19, 23, 0.04);
+}
+
+.group-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #64748b;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.group-tab-btn:hover {
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+.group-tab-btn.active {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+}
+
+/* TAB 1: Compatibility Matrix Card */
+.matrix-view-card {
+  background: #ffffff;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--hw-shadow, 0 2px 10px rgba(16, 19, 23, 0.05));
+  margin-bottom: 30px;
+}
+
+.matrix-header-bar {
+  padding: 22px 26px;
+  border-bottom: 1px solid var(--hw-border, #e7e9ec);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.matrix-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.matrix-subheading {
+  font-size: 0.82rem;
+  color: var(--hw-muted, #64748b);
+  margin: 0;
+}
+
+.matrix-filter-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.matrix-pill {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.matrix-pill:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.matrix-pill.active {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: #ffffff;
+}
+
+.matrix-table-container {
+  overflow-x: auto;
+}
+
+.modern-comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.modern-comp-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 14px 22px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modern-comp-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.18s ease;
+}
+
+.modern-comp-table tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+.modern-comp-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.modern-comp-table td {
+  padding: 18px 22px;
+  vertical-align: middle;
+}
+
+/* Compatibility Group Cell */
+.comp-group-badge-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1.5px solid #fecaca;
+  padding: 8px 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(220, 38, 38, 0.06);
+}
+
+.comp-group-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.comp-group-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.comp-group-code {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.comp-type-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.comp-type-tag.universal-donor { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+.comp-type-tag.universal-recipient { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.comp-type-tag.high-demand { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.comp-type-tag.common { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.comp-type-tag.rh-negative { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.comp-type-tag.rare { background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+
+/* Tag Clusters */
+.comp-pill-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.give-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  color: #15803d;
+  padding: 4px 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(22, 101, 52, 0.05);
+}
+
+.receive-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  color: #1d4ed8;
+  padding: 4px 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(29, 78, 216, 0.05);
+}
+
+.pop-rate {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.clinical-desc {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.comp-book-btn {
+  background: #dc2626;
+  color: #ffffff !important;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.comp-book-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(185, 28, 28, 0.35);
+}
+
+/* Callouts Grid */
+.comp-callouts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  padding: 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.callout-box {
+  background: #ffffff;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.callout-header h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.callout-icon.red { color: #dc2626; }
+.callout-icon.green { color: #059669; }
+.callout-icon.blue { color: #0284c7; }
+
+.callout-box p {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* TAB 2: Registered Donors Network Card */
+.donors-view-card {
+  background: #ffffff;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--hw-shadow, 0 2px 10px rgba(16, 19, 23, 0.05));
+  margin-bottom: 30px;
+}
+
+.donors-toolbar {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--hw-border, #e7e9ec);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.donors-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+  max-width: 380px;
+}
+
+.donors-search-box .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.donors-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.donors-search-input:focus {
+  outline: none;
+  background-color: #ffffff !important;
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.donor-group-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.group-select {
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1 !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: all 0.2s ease;
+}
+
+.group-select:focus {
+  outline: none;
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.add-donor-cta {
+  background: var(--hw-emergency, #c1121f);
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.add-donor-cta:hover {
+  background: #a30f1a;
+  transform: translateY(-1px);
+}
+
+.blood-group-details-table-container {
+  overflow-x: auto;
+}
+
+.modern-donor-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.modern-donor-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 14px 22px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modern-donor-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.18s ease;
+}
+
+.modern-donor-table tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+.modern-donor-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.modern-donor-table td {
+  padding: 16px 22px;
+  vertical-align: middle;
+}
+
+/* Donor Cell Specific */
+.donor-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.donor-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donor-name-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.donor-id {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.donor-blood-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.donor-tint {
+  font-size: 0.75rem;
+}
+
+.gender-label {
+  font-size: 0.84rem;
+  color: #475569;
+  text-transform: capitalize;
+}
+
+.phone-text, .email-text {
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.verified-donor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.contact-donor-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-donor-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.donor-empty-td {
+  text-align: center;
+  padding: 40px !important;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Pagination Bar */
+.pagination-bar {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-btn {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-current-num {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .comp-callouts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .blood-group-hero {
+    flex-direction: column;
+  }
+
+  .blood-group-hero-content {
+    padding: 24px;
+  }
+
+  .blood-group-hero-image {
+    min-height: 200px;
+  }
+
+  .blood-group-details-title {
+    font-size: 1.6rem;
+  }
+
+  .group-tabs-container {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .matrix-header-bar, .donors-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .donors-search-box {
+    max-width: 100%;
+  }
+}

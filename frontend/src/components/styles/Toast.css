@@ -1,0 +1,480 @@
+/* ==========================================================================
+   HEALINGWAVE HOSPITAL PORTAL — PROFESSIONAL TOAST & ALERT SYSTEM
+   Clean, pristine white background with medical emerald green & crimson red accents
+   ========================================================================== */
+
+/* Toast Container */
+.hw-toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 440px;
+  width: calc(100vw - 48px);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .hw-toast-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+/* Individual Toast Card */
+.hw-toast {
+  position: relative;
+  background: #ffffff !important;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  pointer-events: auto;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: hwToastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.hw-toast.hw-toast-exiting {
+  animation: hwToastSlideOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes hwToastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hwToastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.92);
+  }
+}
+
+.hw-toast:hover {
+  box-shadow: 0 16px 40px -4px rgba(15, 23, 42, 0.18), 0 6px 16px -2px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Inner Layout */
+.hw-toast-body {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px 18px 14px 18px;
+  gap: 14px;
+  position: relative;
+}
+
+/* Specific Variants: White Background with Green/Red Accents */
+
+/* SUCCESS VARIANT: Pristine White background, Emerald Green inside */
+.hw-toast--success {
+  border-left: 5px solid #10b981 !important;
+  background: #ffffff !important;
+}
+
+.hw-toast--success .hw-toast-icon-box {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.hw-toast--success .hw-toast-badge {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.hw-toast--success .hw-toast-progress-bar {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+/* ERROR VARIANT: Pristine White background, Medical Red inside */
+.hw-toast--error {
+  border-left: 5px solid #ef4444 !important;
+  background: #ffffff !important;
+}
+
+.hw-toast--error .hw-toast-icon-box {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.hw-toast--error .hw-toast-badge {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.hw-toast--error .hw-toast-progress-bar {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+/* INFO VARIANT */
+.hw-toast--info {
+  border-left: 5px solid #0284c7 !important;
+  background: #ffffff !important;
+}
+
+.hw-toast--info .hw-toast-icon-box {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+}
+
+.hw-toast--info .hw-toast-badge {
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.hw-toast--info .hw-toast-progress-bar {
+  background: linear-gradient(90deg, #0284c7, #0369a1);
+}
+
+/* WARNING VARIANT */
+.hw-toast--warning {
+  border-left: 5px solid #f59e0b !important;
+  background: #ffffff !important;
+}
+
+.hw-toast--warning .hw-toast-icon-box {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+.hw-toast--warning .hw-toast-badge {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.hw-toast--warning .hw-toast-progress-bar {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+/* Icon Box */
+.hw-toast-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.15rem;
+}
+
+/* Text & Content */
+.hw-toast-content {
+  flex: 1;
+  min-width: 0;
+  padding-right: 22px;
+}
+
+.hw-toast-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.hw-toast-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+.hw-toast-title {
+  font-size: 0.925rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.hw-toast-message {
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+/* Close Button */
+.hw-toast-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.hw-toast-close:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* Progress Bar */
+.hw-toast-progress-track {
+  height: 3.5px;
+  width: 100%;
+  background: #f1f5f9;
+  overflow: hidden;
+}
+
+.hw-toast-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  transition: width 0.05s linear;
+}
+
+
+/* ==========================================================================
+   GLOBAL IN-PAGE MESSAGE / ALERT STYLING FOR ALL PAGES
+   Requirement: "whote background inside greena ndd red for all pages"
+   Pristine white background (#ffffff) + Green for success / Red for error
+   ========================================================================== */
+
+/* Error Messages Across All Forms and Pages */
+.error-msg,
+.error-message,
+.form-error,
+.items-error,
+.test-service-error-message,
+.prescription-error,
+.auth-error,
+.patient-error,
+.notification.is-danger,
+.toast-error,
+.form-feedback-alert.error,
+.book-ward-message.error,
+.book-cabin-message.error {
+  background: #ffffff !important;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca !important;
+  border-left: 5px solid #ef4444 !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-align: left !important;
+}
+
+.error-msg::before,
+.error-message::before,
+.test-service-error-message::before {
+  content: "⚠";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: 1px solid #fecaca;
+}
+
+/* Success Messages Across All Forms and Pages */
+.success-msg,
+.success-message,
+.form-success,
+.items-success,
+.test-service-success-message,
+.prescription-success,
+.auth-success,
+.patient-success,
+.notification.is-success,
+.toast-success,
+.form-feedback-alert.success,
+.book-ward-message.success,
+.book-cabin-message.success {
+  background: #ffffff !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+  border-left: 5px solid #10b981 !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-align: left !important;
+}
+
+.success-msg::before,
+.success-message::before,
+.test-service-success-message::before {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  color: #059669;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 1px solid #a7f3d0;
+}
+
+/* Info Messages Across All Forms */
+.info-msg,
+.notification.is-info {
+  background: #ffffff !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  border-left: 5px solid #0284c7 !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  margin-top: 10px !important;
+  margin-bottom: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-align: left !important;
+}
+
+/* Bulma Notification Overrides specifically for white background with green & red inside */
+.notification.is-success .icon,
+.notification.is-success i,
+.notification.is-success svg {
+  color: #059669 !important;
+}
+
+.notification.is-danger .icon,
+.notification.is-danger i,
+.notification.is-danger svg {
+  color: #dc2626 !important;
+}
+
+.notification.is-success .message,
+.notification.is-danger .message {
+  flex: 1;
+  font-weight: 600;
+}
+
+.notification .delete {
+  background-color: #f1f5f9 !important;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.notification .delete:hover {
+  background-color: #e2e8f0 !important;
+  opacity: 1;
+}
+
+.notification .delete::before,
+.notification .delete::after {
+  background-color: #64748b !important;
+}
+
+/* SweetAlert2 Hospital Styling Overrides */
+.swal2-popup {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16) !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 32px 24px !important;
+}
+
+.swal2-title {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  font-size: 1.35rem !important;
+}
+
+.swal2-html-container {
+  color: #475569 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+}
+
+.swal2-icon.swal2-success {
+  border-color: #10b981 !important;
+  color: #10b981 !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+  background-color: #10b981 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border: 4px solid rgba(16, 185, 129, 0.25) !important;
+}
+
+.swal2-icon.swal2-error {
+  border-color: #ef4444 !important;
+  color: #ef4444 !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+  background-color: #ef4444 !important;
+}
+
+.swal2-confirm {
+  background-color: #1b1f24 !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: 10px 24px !important;
+  box-shadow: none !important;
+}
+

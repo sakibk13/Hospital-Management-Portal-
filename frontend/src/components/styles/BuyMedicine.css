@@ -1,0 +1,253 @@
+/* ============================================================
+   HealingWave Digital Pharmacy — Buy & Express Checkout Styling
+   ============================================================ */
+
+.buy-medicine {
+  min-height: 100vh;
+  background: var(--hw-bg-subtle, #f8fafc);
+  padding: 36px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--hw-transition, 0.2s ease);
+  color: var(--hw-ink, #16191d);
+}
+
+.buy-medicine-header {
+  text-align: center;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.buy-medicine-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.buy-medicine-container {
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: 28px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+@media (max-width: 1024px) {
+  .buy-medicine-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.medicine-search-section,
+.cart-details-section {
+  background: var(--hw-bg, #ffffff);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  box-shadow: 0 4px 16px rgba(16, 19, 23, 0.04);
+}
+
+.search-input-wrapper {
+  margin-bottom: 20px;
+}
+
+.buy-medicine input,
+.buy-medicine textarea {
+  width: 100%;
+  padding: 11px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  border-radius: 10px;
+  color: var(--hw-ink, #16191d);
+  font-size: 0.95rem;
+  transition: var(--hw-transition, 0.2s ease);
+  margin-bottom: 12px;
+}
+
+.buy-medicine input::placeholder,
+.buy-medicine textarea::placeholder {
+  color: var(--hw-muted, #94a3b8);
+}
+
+.buy-medicine input:focus,
+.buy-medicine textarea:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+}
+
+.medicine-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.medicine-item {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.medicine-item:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 19, 23, 0.06);
+}
+
+.medicine-price-row {
+  margin-top: 14px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.medicine-price-tag {
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  font-size: 1.05rem;
+}
+
+.add-btn {
+  background: #0f766e;
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #115e59;
+  transform: translateY(-1px);
+}
+
+.cart-details-section h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  letter-spacing: -0.01em;
+}
+
+.selected-medicine {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: var(--hw-ink, #16191d);
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantity-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.quantity-btn:hover {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}
+
+.total-bill {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--hw-ink, #16191d);
+  margin: 16px 0;
+}
+
+.checkout-btn {
+  width: 100%;
+  background: #0f766e;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkout-btn:hover {
+  background: #115e59;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--hw-border, #e7e9ec);
+  background: var(--hw-bg, #ffffff);
+  color: var(--hw-ink-soft, #444a52);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.page-btn:hover:not(.active) {
+  border-color: #0f766e;
+  color: #0f766e;
+}
+
+.page-btn.active {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}
+
+.back-home-link {
+  color: var(--hw-ink-soft, #444a52);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+
+.back-home-link:hover {
+  color: #0f766e;
+  transform: translateX(-3px);
+}

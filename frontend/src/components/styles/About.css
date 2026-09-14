@@ -1,0 +1,642 @@
+/* ============================================================
+   About.css — Hospital Legacy, Mission & Infrastructure Styling
+   ============================================================ */
+
+.about-page {
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+  font-family: inherit;
+}
+
+/* ---------------- Hero Section ---------------- */
+.about-hero {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('../../assets/hospital1.png');
+  background-size: cover;
+  background-position: center;
+  padding: 90px 20px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.about-hero-content {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.about-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(13, 148, 136, 0.2);
+  border: 1px solid rgba(13, 148, 136, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #2dd4bf;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+}
+
+.about-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+.about-hero-subtitle {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  font-weight: 400;
+  margin-bottom: 2.25rem;
+}
+
+.about-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.about-btn-primary {
+  background: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 20px -5px rgba(13, 148, 136, 0.5);
+  transition: all 0.25s ease;
+}
+
+.about-btn-primary:hover {
+  background: linear-gradient(135deg, #0f766e 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px -4px rgba(13, 148, 136, 0.6);
+}
+
+.about-btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.8rem 1.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.about-btn-secondary:hover {
+  background: #ffffff;
+  color: #0f172a;
+  transform: translateY(-2px);
+}
+
+/* ---------------- Story Section ---------------- */
+.about-story-section {
+  max-width: 1320px;
+  margin: 90px auto 0;
+  padding: 0 1.5rem;
+}
+
+.about-story-container {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.story-image-wrap {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.15);
+  border: 1px solid #e2e8f0;
+}
+
+.story-image {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.story-badge-floating {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.floating-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2dd4bf;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.floating-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.section-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f0fdfa;
+  color: #0d9488;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccfbf1;
+}
+
+.story-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.story-lead {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.story-text {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.story-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.story-feat-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.feat-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #f0fdfa;
+  color: #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  border: 1px solid #ccfbf1;
+}
+
+.story-feat-item h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.story-feat-item p {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ---------------- Mission, Vision & Pledge ---------------- */
+.mission-vision-section {
+  max-width: 1320px;
+  margin: 100px auto 0;
+  padding: 0 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mission-vision-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.mv-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mv-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.mission-card::before {
+  background: linear-gradient(90deg, #0d9488, #2dd4bf);
+}
+
+.vision-card::before {
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+
+.pledge-card::before {
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+}
+
+.mv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -8px rgba(15, 23, 42, 0.08);
+}
+
+.mv-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.mission-card .mv-icon-wrap {
+  background: #f0fdfa;
+  color: #0d9488;
+}
+
+.vision-card .mv-icon-wrap {
+  background: #f0f9ff;
+  color: #0284c7;
+}
+
+.pledge-card .mv-icon-wrap {
+  background: #f5f3ff;
+  color: #6366f1;
+}
+
+.mv-card h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.mv-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+  flex: 1;
+}
+
+.mv-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  align-self: flex-start;
+}
+
+.mission-card .mv-badge {
+  background: #f0fdfa;
+  color: #0d9488;
+}
+
+.vision-card .mv-badge {
+  background: #f0f9ff;
+  color: #0284c7;
+}
+
+.pledge-card .mv-badge {
+  background: #f5f3ff;
+  color: #6366f1;
+}
+
+/* ---------------- Core Values ---------------- */
+.values-section {
+  max-width: 1320px;
+  margin: 100px auto 0;
+  padding: 0 1.5rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.value-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px 24px;
+  transition: all 0.25s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.08);
+  border-color: #0d9488;
+}
+
+.value-icon-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.bg-rose { background: #fff1f2; color: #e11d48; }
+.bg-teal { background: #f0fdfa; color: #0d9488; }
+.bg-blue { background: #eff6ff; color: #2563eb; }
+.bg-amber { background: #fefce8; color: #d97706; }
+
+.value-card h3 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.6rem;
+}
+
+.value-card p {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* ---------------- Facilities Showcase ---------------- */
+.about-facilities-section {
+  max-width: 1320px;
+  margin: 100px auto 0;
+  padding: 0 1.5rem;
+}
+
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.facility-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.facility-card:hover {
+  border-color: #0d9488;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.06);
+}
+
+.facility-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #0d9488;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.facility-card:hover .facility-icon {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0d9488;
+}
+
+.facility-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.4rem;
+}
+
+.facility-card p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ---------------- Stats Section ---------------- */
+.about-stats-section {
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 60px 1.5rem;
+  margin-top: 90px;
+}
+
+.about-stats-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  text-align: center;
+}
+
+.about-stat-number {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0d9488;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.about-stat-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+/* ---------------- Campus & Contact Section ---------------- */
+.about-contact-section {
+  max-width: 1320px;
+  margin: 90px auto 100px;
+  padding: 0 1.5rem;
+}
+
+.contact-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.contact-info-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.contact-info-card:hover {
+  transform: translateY(-4px);
+  border-color: #0d9488;
+  box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.08);
+}
+
+.contact-info-card.highlighted-contact {
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdfa 100%);
+  border-color: #99f6e4;
+}
+
+.contact-icon-bubble {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #f0fdfa;
+  color: #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.contact-info-card.highlighted-contact .contact-icon-bubble {
+  background: #0d9488;
+  color: #ffffff;
+}
+
+.contact-info-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.6rem;
+}
+
+.contact-info-card p {
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.contact-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0d9488;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1024px) {
+  .about-story-container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .story-image {
+    height: 380px;
+  }
+
+  .about-hero-title {
+    font-size: 2.35rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero-title {
+    font-size: 1.95rem;
+  }
+
+  .about-hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .about-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-btn-primary,
+  .about-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .story-badge-floating {
+    position: static;
+    margin-top: 1rem;
+  }
+}

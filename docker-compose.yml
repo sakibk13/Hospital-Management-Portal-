@@ -1,0 +1,45 @@
+﻿services:
+  # 1. MongoDB Database
+  mongo:
+    image: mongo:latest
+    container_name: hospital_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # 2. ASP.NET Core Web API (.NET 9)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hospital_backend
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDB__ConnectionString=mongodb://mongo:27017
+      - MongoDB__DatabaseName=hospital_db
+      - Jwt__Secret=HospitalManagementSuperSecretKey2026!With32BytesLongMinimumKey
+      - Gemini__ApiKey=${GEMINI_API_KEY}
+    ports:
+      - "5000:8080"
+    depends_on:
+      - mongo
+
+  # 3. Next.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: hospital_frontend
+    restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

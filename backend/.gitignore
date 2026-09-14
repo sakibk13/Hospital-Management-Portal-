@@ -1,0 +1,30 @@
+# ASP.NET Core / .NET Backend .gitignore
+
+# Secrets & Local Configuration
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
+*.env
+.env*
+!.env.example
+
+# Build Artifacts
+bin/
+obj/
+
+# Visual Studio / Rider / VSCode
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Python Scripts Virtual Env
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Logs
+*.log

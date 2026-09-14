@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.blood-form-page {
+  background-color: var(--hw-bg-subtle, #f8fafc);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+}
+
+.blood-form-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Top Navigation Bar */
+.blood-form-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.blood-form-back-btn {
+  background: none;
+  border: none;
+  color: #475569 !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.blood-form-back-btn:hover {
+  color: #0f172a !important;
+  transform: translateX(-3px);
+}
+
+.blood-form-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0369a1;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+/* Hero Visual Card */
+.blood-form-hero-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.blood-form-hero-content {
+  flex: 1.3;
+  padding: 36px 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blood-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  width: fit-content;
+  margin-bottom: 12px;
+}
+
+.blood-hero-badge.donor {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.blood-hero-badge.recipient {
+  background: #e0f2fe;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+}
+
+.blood-hero-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  margin: 0 0 10px;
+  line-height: 1.25;
+}
+
+.blood-hero-desc {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.blood-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.meta-item {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.blood-form-hero-img-wrap {
+  flex: 0.9;
+  position: relative;
+  min-height: 220px;
+  background-color: #f1f5f9;
+}
+
+.blood-form-hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Form Container Card */
+.blood-form-card {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 38px 40px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  margin-bottom: 24px;
+}
+
+.blood-form-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 18px;
+  margin-bottom: 26px;
+}
+
+.blood-form-heading {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+
+.blood-form-subheading {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Alerts */
+.blood-form-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.blood-form-alert.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.blood-form-alert.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  margin-top: 2px;
+}
+
+.alert-body strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.alert-body p {
+  font-size: 0.84rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 2-Column Responsive Grid */
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.form-field-label .label-icon {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.form-field-label .label-icon.red {
+  color: #dc2626;
+}
+
+.form-field-label .req {
+  color: #dc2626;
+  font-weight: 800;
+}
+
+/* Crisp White Inputs & Selects - Absolute fix for black background issue */
+.form-field-input,
+.form-field-select {
+  width: 100% !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.94rem !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  padding: 11px 16px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  height: 46px !important;
+}
+
+.form-field-input::placeholder {
+  color: #94a3b8 !important;
+  font-weight: 400 !important;
+}
+
+.form-field-input:focus,
+.form-field-select:focus {
+  background-color: #ffffff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14) !important;
+}
+
+.form-field-select {
+  cursor: pointer !important;
+  appearance: auto !important;
+  -webkit-appearance: menulist !important;
+}
+
+.form-field-select.blood-select {
+  font-weight: 700 !important;
+  color: #b91c1c !important;
+}
+
+.form-field-input:disabled {
+  background-color: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  border-color: #e2e8f0 !important;
+  cursor: not-allowed !important;
+}
+
+/* Submit Container & Button */
+.form-submit-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.blood-submit-btn {
+  width: 100%;
+  max-width: 480px;
+  padding: 14px 28px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  color: #ffffff !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.2px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+}
+
+.blood-submit-btn.recipient-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+}
+
+.blood-submit-btn.recipient-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+}
+
+.blood-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.form-privacy-note {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 14px;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 520px;
+}
+
+/* Footer Links */
+.blood-form-footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.footer-link {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0284c7 !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease;
+}
+
+.footer-link:hover {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blood-form-hero-card {
+    flex-direction: column;
+  }
+
+  .blood-form-hero-content {
+    padding: 24px;
+  }
+
+  .blood-form-hero-img-wrap {
+    min-height: 180px;
+  }
+
+  .blood-hero-title {
+    font-size: 1.5rem;
+  }
+
+  .blood-form-card {
+    padding: 24px 20px;
+  }
+
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .blood-form-footer-links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

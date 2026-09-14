@@ -1,0 +1,361 @@
+/* Admin Stats & Dashboard Styles */
+.admin-dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .dashboard-top-nav {
+    margin-bottom: 2rem;
+  }
+  
+  .back-home-link {
+    display: inline-flex;
+    align-items: center;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  .dark .back-home-link {
+    color: #94a3b8;
+  }
+  
+  .back-home-link:hover {
+    color: #1b1f24;
+  }
+  
+  .nav-icon {
+    margin-right: 0.5rem;
+  }
+  
+  .admin-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .dark .admin-dashboard-header {
+    border-bottom-color: #27272a;
+  }
+  
+  .admin-dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .dark .admin-dashboard-title {
+    color: #f1f5f9;
+    background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .logout-btn {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .dark .logout-btn {
+    background-color: rgba(127, 29, 29, 0.2);
+    color: #f87171;
+  }
+  
+  .logout-btn:hover {
+    background-color: #fecaca;
+    transform: translateY(-1px);
+  }
+  
+  .dark .logout-btn:hover {
+    background-color: rgba(127, 29, 29, 0.4);
+  }
+  
+  /* Stats Section */
+  .dashboard-stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  .stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .dark .stat-card {
+    background: #18181b; /* zinc-900 */
+    border-color: #27272a; /* zinc-800 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  }
+  
+  .dark .stat-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-title {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .dark .stat-title {
+    color: #94a3b8;
+  }
+  
+  .stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1;
+  }
+  
+  .dark .stat-value {
+    color: #f1f5f9;
+  }
+  
+  .stat-subtext {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #94a3b8;
+  }
+  
+  .dark .stat-subtext {
+    color: #64748b;
+  }
+  
+  /* Quick Actions Grid */
+  .dashboard-actions-section {
+    margin-top: 3rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+  }
+  
+  .dark .section-title {
+    color: #f1f5f9;
+  }
+  
+  .admin-dashboard-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .card-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .dark .card-box {
+    background: #18181b;
+    border-color: #27272a;
+  }
+  
+  .card-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #1b1f24;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .card-box:hover {
+    border-color: #1b1f24;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .dark .card-box:hover {
+    border-color: #1b1f24;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+  }
+  
+  .card-box:hover::before {
+    opacity: 1;
+  }
+  
+  .card-box h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+  }
+  
+  .dark .card-box h3 {
+    color: #f1f5f9;
+  }
+  
+  .card-subtext {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .dark .card-subtext {
+    color: #94a3b8;
+  }
+  
+  /* Clean Medical Utility Badges */
+  .med-badge-blue { background-color: #e0f2fe; color: #0284c7; }
+  .med-badge-green { background-color: #dcfce7; color: #16a34a; }
+  .med-badge-purple { background-color: #f3e8ff; color: #7e22ce; }
+  .med-badge-orange { background-color: #ffedd5; color: #ea580c; }
+  
+  .dark .med-badge-blue { background-color: rgba(2, 132, 199, 0.2); color: #38bdf8; }
+  .dark .med-badge-green { background-color: rgba(22, 163, 74, 0.2); color: #4ade80; }
+  .dark .med-badge-purple { background-color: rgba(126, 34, 206, 0.2); color: #c084fc; }
+  .dark .med-badge-orange { background-color: rgba(234, 88, 12, 0.2); color: #fb923c; }
+
+/* Generic Admin Card for Dark Mode Support */
+.admin-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+}
+
+.dark .admin-card {
+  background: #18181b !important;
+  border-color: #27272a !important;
+}
+
+/* Primary Hospital Action Button */
+.admin-btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.admin-btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
+/* Admin Toolbar Elements */
+.admin-search-input {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.dark .admin-search-input {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+  color: #e4e4e7 !important;
+}
+
+.dark .admin-search-input::placeholder {
+  color: #a1a1aa !important;
+}
+
+.admin-btn-secondary {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.dark .admin-btn-secondary {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+  color: #e4e4e7 !important;
+}
+
+.dark .admin-btn-secondary:hover {
+  background-color: #3f3f46 !important;
+}
+
+/* Force Dark Mode for Toggle Containers */
+.dark .admin-toggle-container {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+}
+
+/* Pagination Buttons */
+.dark .admin-pagination-btn {
+  background-color: #27272a !important;
+  border-color: #3f3f46 !important;
+  color: #e4e4e7 !important;
+}
+
+.dark .admin-pagination-btn:hover:not(:disabled) {
+  background-color: #3f3f46 !important;
+}
+
+.dark .admin-pagination-btn:disabled {
+  opacity: 0.4 !important;
+  color: #71717a !important;
+}
