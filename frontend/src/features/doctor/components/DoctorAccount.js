@@ -90,8 +90,7 @@ const DoctorAccount = () => {
   const getImageUrl = (path) => {
     if (!path) return 'https://ui-avatars.com/api/?name=User&background=random';
     if (path.startsWith('http') || path.startsWith('data:')) return path;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:1002';
+    const apiUrl = process.env.REACT_APP_API_URL || (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') : '') || '';
     return `${apiUrl}${cleanPath}?t=${new Date().getTime()}`;
   };
 

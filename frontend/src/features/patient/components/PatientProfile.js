@@ -52,8 +52,7 @@ const PatientProfile = ({ email, onClose, onProfileUpdate }) => {
         const res = await api.get(`/patients/pdetails/email/${email}`);
         setFormData(res.data);
         if (res.data.profilePicture) {
-            const isAbsolute = res.data.profilePicture.startsWith('http');
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:1002';
+            const apiUrl = process.env.REACT_APP_API_URL || (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') : '') || '';
             setImagePreview(isAbsolute ? res.data.profilePicture : `${apiUrl}${res.data.profilePicture}`);
         } else {
             setImagePreview('https://ui-avatars.com/api/?name=' + (res.data.name || 'User') + '&background=random');
@@ -91,8 +90,7 @@ const PatientProfile = ({ email, onClose, onProfileUpdate }) => {
       const res = await api.post('/patients/upload-profile-picture', uploadData);
       
       console.log('Upload successful:', res.data);
-      const isAbsolute = res.data.profilePicture.startsWith('http');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:1002';
+      const apiUrl = process.env.REACT_APP_API_URL || (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') : '') || '';
       setImagePreview(isAbsolute ? res.data.profilePicture : `${apiUrl}${res.data.profilePicture}`);
       setProfilePictureFile(null);
       
