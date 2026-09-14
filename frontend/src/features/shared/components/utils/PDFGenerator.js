@@ -127,41 +127,39 @@ export const prescriptionPDF = (formData = {}) => {
       // 1. HOSPITAL & DOCTOR BRAND HEADER
       // ============================================================
       {
-        columns: [
-          // Hospital Branding (Left)
-          {
-            width: '*',
-            columns: [
+        table: {
+          widths: [48, '*', 190],
+          body: [
+            [
               {
                 image: HEALINGWAVE_LOGO_BASE64,
-                width: 44,
-                height: 44,
-                margin: [0, 2, 10, 0]
+                fit: [42, 42],
+                alignment: 'left',
+                margin: [0, 0, 6, 0]
               },
               {
-                width: '*',
                 stack: [
-                  { text: 'HEALINGWAVE GENERAL HOSPITAL', fontSize: 13.5, bold: true, color: '#0f766e', letterSpacing: 0.3 },
+                  { text: 'HEALINGWAVE GENERAL HOSPITAL', fontSize: 13, bold: true, color: '#0f766e', letterSpacing: 0.3 },
                   { text: 'Medical Center & Advanced Research Institute', fontSize: 8.5, bold: true, color: '#0284c7', margin: [0, 1, 0, 2] },
                   { text: '15 Rankin Street, Wari, Dhaka-1203 • Hotline: +1 (800) 432-5464', fontSize: 7.5, color: '#64748b' },
                   { text: 'www.healingwave.org • JCI Accredited Hospital • 24/7 Level-1 Trauma Care', fontSize: 7.5, color: '#64748b' }
                 ]
+              },
+              {
+                alignment: 'right',
+                stack: [
+                  { text: doctorName, fontSize: 12, bold: true, color: '#0f172a' },
+                  { text: doctorDegrees, fontSize: 8, color: '#334155', margin: [0, 1, 0, 1] },
+                  { text: 'BMDC Reg. No: A-48921 • Accredited Specialist', fontSize: 7.5, bold: true, color: '#0d9488' },
+                  { text: 'Department of Internal Medicine & Clinical Care', fontSize: 7.5, color: '#64748b' },
+                  { text: doctorEmail || 'doctor@healingwave.com', fontSize: 7.5, color: '#94a3b8' }
+                ]
               }
             ]
-          },
-          // Doctor Credentials (Right)
-          {
-            width: 200,
-            alignment: 'right',
-            stack: [
-              { text: doctorName, fontSize: 12.5, bold: true, color: '#0f172a' },
-              { text: doctorDegrees, fontSize: 8.5, color: '#334155', margin: [0, 1, 0, 1] },
-              { text: 'BMDC Reg. No: A-48921 • Accredited Specialist', fontSize: 7.5, bold: true, color: '#0d9488' },
-              { text: 'Department of Internal Medicine & Clinical Care', fontSize: 7.5, color: '#64748b' },
-              { text: doctorEmail || 'doctor@healingwave.com', fontSize: 7.5, color: '#94a3b8' }
-            ]
-          }
-        ]
+          ]
+        },
+        layout: 'noBorders',
+        margin: [0, 0, 0, 6]
       },
 
       // Decorative Divider Lines

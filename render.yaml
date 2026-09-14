@@ -1,0 +1,50 @@
+services:
+  # ============================================================================
+  # 1. ASP.NET Core Web API (.NET 9) Backend Service
+  # ============================================================================
+  - type: web
+    name: healingwave-backend-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: MongoDB__ConnectionString
+        sync: false
+      - key: MongoDB__DatabaseName
+        value: hospital_db
+      - key: Jwt__Secret
+        sync: false
+      - key: Email__Host
+        value: smtp.gmail.com
+      - key: Email__Port
+        value: "587"
+      - key: Email__User
+        sync: false
+      - key: Email__Pass
+        sync: false
+      - key: Gemini__ApiKey
+        sync: false
+      - key: Gemini__Model
+        value: gemini-1.5-flash
+
+  # ============================================================================
+  # 2. Next.js 16 Frontend Web Service
+  # ============================================================================
+  - type: web
+    name: healingwave-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
