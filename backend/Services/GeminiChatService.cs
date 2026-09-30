@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MongoDB.Driver;
@@ -27,8 +27,15 @@ public class GeminiChatService
     {
         _db = db;
         _httpClient = httpClient;
-        _apiKey = config["Gemini:ApiKey"] ?? string.Empty;
-        _model = config["Gemini:Model"] ?? "gemini-1.5-flash";
+        _apiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY")
+            ?? config["Gemini:ApiKey"]
+            ?? config["GEMINI_API_KEY"]
+            ?? string.Empty;
+
+        _model = Environment.GetEnvironmentVariable("GEMINI_MODEL")
+            ?? config["Gemini:Model"]
+            ?? config["GEMINI_MODEL"]
+            ?? "gemini-flash-latest";
     }
 
     public async Task<string> GenerateResponseAsync(string userMessage)
@@ -38,11 +45,25 @@ public class GeminiChatService
 
         // 2. Prepare system prompt with safety rules
         string systemPrompt = $@"You are HealingWave Assistant, a friendly and highly knowledgeable virtual assistant for the HealingWave Hospital Web Portal.
-Answer the user's question concisely (2-4 sentences) using the LIVE HOSPITAL DATA provided below.
-Guidelines:
-1. Always use markdown links in the format [Page Name](/route), e.g., [Doctors](/doctors), [Blood Bank](/blood-bank), [Pharmacy](/pharmacy), [Support](/support).
-2. Do NOT invent fake doctor names, medicine prices, or stock counts that are not in the context.
-3. You are not a medical doctor: never prescribe medicine or give definitive clinical diagnoses. Always advise consulting a specialist.
+Answer concisely (2-4 sentences) using the LIVE HOSPITAL DATA provided below.
+
+CRITICAL INSTRUCTIONS:
+1. When the user asks generally what the chatbot can do or what features exist (e.g., 'What can you do?', 'help', 'features'), you must ask what feature they want to know about and list ONLY these feature names:
+What feature would you like to know about?
+- Blood Bank
+- Doctor Details
+- Patient Details
+- Appointments
+- Departments
+- Medicines
+- Medical Records
+- Health Card
+- Bed & Cabin Booking
+
+2. Understand intents semantically (e.g. 'heart specialist', 'cardiology', and 'chest pain' all map to Cardiology doctors).
+3. Always use markdown links in the format [Page Name](/route), e.g., [Doctors](/doctors), [Blood Bank](/blood-bank), [Pharmacy](/pharmacy), [Support](/support).
+4. Do NOT invent fake doctor names, medicine prices, or stock counts that are not in the context.
+5. You are not a medical doctor: never prescribe medicine or give definitive clinical diagnoses. Always advise consulting a specialist.
 
 LIVE HOSPITAL DATA:
 {liveContext}";

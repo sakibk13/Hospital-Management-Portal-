@@ -56,10 +56,10 @@ const Chatbot = ({ onClose }) => {
     setInput('');
     setTyping(true);
 
-    // Build short history for context (exclude the greeting)
-    const history = currentMessages
+    // Build conversation memory from previous messages (excluding initial greeting)
+    const history = messages
       .slice(1)
-      .slice(-6)
+      .slice(-10)
       .map((m) => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
     try {

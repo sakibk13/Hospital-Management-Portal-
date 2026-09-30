@@ -560,17 +560,6 @@ const Home = () => {
 
       {/* Modern Hospital Footer */}
       <Footer />
-
-      {/* Floating AI Health Assistant Button */}
-      <div className="chatbot-icon-wrap" onClick={toggleChatbox} title="HealingWave AI Health Assistant">
-        <span className="chat-radar"></span>
-        <div className="chatbot-icon">
-          <FontAwesomeIcon icon={faRobot} />
-        </div>
-        <span className="chat-tooltip">Need Help? Chat with AI Assistant</span>
-      </div>
-
-      {showChatbox && <Chatbot onClose={toggleChatbox} />}
     </div>
   );
 };

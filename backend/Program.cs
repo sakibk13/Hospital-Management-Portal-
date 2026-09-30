@@ -4,8 +4,38 @@ using System.Text;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using HospitalManagement.Api.Services;
+// Load .env file if available
+var envFiles = new[]
+{
+    Path.Combine(Directory.GetCurrentDirectory(), ".env"),
+    Path.Combine(Directory.GetCurrentDirectory(), "..", ".env"),
+    Path.Combine(AppContext.BaseDirectory, ".env")
+};
+foreach (var envPath in envFiles)
+{
+    if (File.Exists(envPath))
+    {
+        foreach (var line in File.ReadAllLines(envPath))
+        {
+            var trimmed = line.Trim();
+            if (string.IsNullOrWhiteSpace(trimmed) || trimmed.StartsWith("#")) continue;
+            var parts = trimmed.Split('=', 2);
+            if (parts.Length == 2)
+            {
+                var envKey = parts[0].Trim();
+                var envVal = parts[1].Trim().Trim('"').Trim('\'');
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envKey)))
+                {
+                    Environment.SetEnvironmentVariable(envKey, envVal);
+                }
+            }
+        }
+        break;
+    }
+}
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 
 // Add Controllers
 builder.Services.AddControllers();

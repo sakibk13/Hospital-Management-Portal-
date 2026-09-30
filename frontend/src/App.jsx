@@ -14,6 +14,7 @@ import { AuthModalProvider } from './features/auth/AuthModalContext';
 import NavbarComponent from './features/shared/components/layout/Navbar';
 import MainLayout from './features/shared/components/layout/MainLayout';
 import ProtectedRoute from './features/shared/components/ProtectedRoute';
+import GlobalChatbot from './features/shared/components/utils/GlobalChatbot';
 import Chatbot from './features/shared/components/utils/Chatbot';
 import NewsTicker from './features/shared/components/utils/NewsTicker';
 import SupportForm from './features/shared/components/forms/SupportForm';
@@ -200,6 +201,8 @@ export default function App() {
                 <Route path="/admin-support" element={<AdminSupport />} />
             </Route>
           </Routes>
+          {/* Global persistent chatbot assistant - stays visible across all routes */}
+          <GlobalChatbot />
         </div>
       </Router>
     </ChatProvider>

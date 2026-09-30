@@ -17,9 +17,12 @@ const INITIAL_MESSAGES = [
  */
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleChat = () => setIsOpen((prev) => !prev);
 
   return (
-    <ChatContext.Provider value={{ messages, setMessages }}>
+    <ChatContext.Provider value={{ messages, setMessages, isOpen, setIsOpen, toggleChat }}>
       {children}
     </ChatContext.Provider>
   );
