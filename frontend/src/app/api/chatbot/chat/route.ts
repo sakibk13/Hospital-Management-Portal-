@@ -174,6 +174,61 @@ const bloodAvailabilityTool = tool(
   }
 );
 
+// Shared robust doctor search helper
+function findDoctor(doctors: any[], doctorName?: string, department?: string): any {
+  if (!Array.isArray(doctors) || doctors.length === 0) return null;
+
+  // 1. If doctorName is provided, search strictly for that doctor
+  if (doctorName && doctorName.trim()) {
+    const clean = doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim();
+    const tokens = clean.split(/\s+/).filter((t) => t.length > 1);
+
+    // Exact full name match
+    let match = doctors.find((d) => {
+      const full = `${d.firstName} ${d.lastName}`.toLowerCase().trim();
+      return full === clean;
+    });
+    if (match) return match;
+
+    // First or last name exact match
+    match = doctors.find((d) => {
+      const first = (d.firstName || '').toLowerCase().trim();
+      const last = (d.lastName || '').toLowerCase().trim();
+      return first === clean || last === clean;
+    });
+    if (match) return match;
+
+    // Token match (e.g. "walter" or "white")
+    match = doctors.find((d) => {
+      const first = (d.firstName || '').toLowerCase();
+      const last = (d.lastName || '').toLowerCase();
+      const full = `${first} ${last}`;
+      return full.includes(clean) || tokens.every((t) => full.includes(t)) || tokens.some((t) => first === t || last === t);
+    });
+    if (match) return match;
+
+    // Partial token match (minimum 3 characters)
+    match = doctors.find((d) => {
+      const first = (d.firstName || '').toLowerCase();
+      const last = (d.lastName || '').toLowerCase();
+      return tokens.some((t) => t.length >= 3 && (first.includes(t) || last.includes(t)));
+    });
+    if (match) return match;
+
+    // If user asked for a specific doctor name and they were not found:
+    // DO NOT arbitrarily substitute another doctor! Return null.
+    return null;
+  }
+
+  // 2. If NO doctor name was given, find a doctor matching the requested department
+  if (department && department.trim()) {
+    const cleanDept = department.toLowerCase().trim();
+    return doctors.find((d) => (d.department || '').toLowerCase().includes(cleanDept) || cleanDept.includes((d.department || '').toLowerCase())) || null;
+  }
+
+  return null;
+}
+
 const searchDoctorsTool = tool(
   async ({ specialty, department, doctorName }) => {
     try {
@@ -181,7 +236,19 @@ const searchDoctorsTool = tool(
       if (!res.ok) return JSON.stringify({ error: 'Failed to fetch doctors list' });
       let doctors: any[] = await res.json();
 
-      if (specialty) {
+      if (doctorName) {
+        const docMatch = findDoctor(doctors, doctorName);
+        if (docMatch) {
+          doctors = [docMatch];
+        } else {
+          const name = doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim();
+          doctors = doctors.filter((d) =>
+            `${d.firstName} ${d.lastName}`.toLowerCase().includes(name) ||
+            (d.firstName || '').toLowerCase().includes(name) ||
+            (d.lastName || '').toLowerCase().includes(name)
+          );
+        }
+      } else if (specialty) {
         const spec = specialty.toLowerCase();
         doctors = doctors.filter((d) =>
           d.specialty?.toLowerCase().includes(spec) ||
@@ -190,13 +257,6 @@ const searchDoctorsTool = tool(
       } else if (department) {
         const dept = department.toLowerCase();
         doctors = doctors.filter((d) => d.department?.toLowerCase().includes(dept));
-      }
-
-      if (doctorName) {
-        const name = doctorName.toLowerCase();
-        doctors = doctors.filter((d) =>
-          `${d.firstName} ${d.lastName}`.toLowerCase().includes(name)
-        );
       }
 
       const summary = doctors.map((d) => ({
@@ -448,21 +508,14 @@ const checkDoctorScheduleTool = tool(
       const docRes = await fetch(`${backendOrigin}/api/Doctors/all`, { cache: 'no-store' });
       if (!docRes.ok) return JSON.stringify({ error: 'Doctors directory unreachable' });
       const doctors: any[] = await docRes.json();
-      const cleanName = doctorName ? doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim() : '';
-
-      const doctor = doctors.find((d: any) => {
-        if (cleanName) {
-          const fullName = `${d.firstName} ${d.lastName}`.toLowerCase();
-          if (fullName.includes(cleanName) || cleanName.includes(d.firstName.toLowerCase()) || cleanName.includes(d.lastName.toLowerCase())) {
-            return true;
-          }
-        }
-        if (department && d.department?.toLowerCase() === department.toLowerCase()) return true;
-        return false;
-      });
+      const doctor = findDoctor(doctors, doctorName, department);
 
       if (!doctor) {
-        return JSON.stringify({ error: `No doctor found matching "${doctorName || department}"` });
+        return JSON.stringify({
+          error: doctorName
+            ? `Doctor "${doctorName}" was not found in the hospital directory. Registered doctors include Dr. Walter White (Neurology), Dr. Thomas Shelby (Cardiology), Dr. Tyrion Lannister (Neurology), Dr. Ragnar Lothbrok (Orthopaedics), Dr. Ned Stark (Cardiology), etc.`
+            : `No doctor found matching department "${department}".`,
+        });
       }
 
       const docFullName = `Dr. ${doctor.firstName} ${doctor.lastName}`;
@@ -549,23 +602,18 @@ const bookAppointmentTool = tool(
           const docRes = await fetch(`${backendOrigin}/api/Doctors/all`, { cache: 'no-store' });
           if (docRes.ok) {
             const doctors: any[] = await docRes.json();
-            const cleanDocName = doctorName ? doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim() : '';
-
-            const found = doctors.find((d: any) => {
-              if (cleanDocName) {
-                const fullName = `${d.firstName} ${d.lastName}`.toLowerCase();
-                if (fullName.includes(cleanDocName) || cleanDocName.includes(d.firstName.toLowerCase()) || cleanDocName.includes(d.lastName.toLowerCase())) {
-                  return true;
-                }
-              }
-              if (department && d.department?.toLowerCase() === department.toLowerCase()) return true;
-              return false;
-            });
+            const found = findDoctor(doctors, doctorName, department);
             if (found) {
               resolvedDoctor = found;
               resolvedDoctorName = `Dr. ${found.firstName} ${found.lastName}`;
               resolvedDoctorEmail = found.email;
-              resolvedDept = found.department || resolvedDept;
+              resolvedDept = found.department;
+            } else if (doctorName) {
+              return JSON.stringify({
+                success: false,
+                clash: false,
+                message: `Doctor "${doctorName}" was not found in our hospital directory. Please select from our registered specialists: Dr. Walter White (Neurology), Dr. Thomas Shelby (Cardiology), Dr. Tyrion Lannister (Neurology), Dr. Ned Stark (Cardiology), Dr. Ragnar Lothbrok (Orthopaedics).`,
+              });
             }
           }
         } catch { /* proceed */ }
@@ -882,11 +930,12 @@ What feature would you like to know about?
 - Bed & Cabin Booking
 
 2. DOCTOR AVAILABILITY, CLASH DETECTION & APPOINTMENTS:
-- For availability questions (e.g. "When is Dr. Thomas Shelby available?"): Call check_doctor_schedule. Inform them of their regular visiting days and hours.
-- When the user asks to BOOK an appointment (e.g. "Book an appointment for patient Rafiqul Islam, email rafiqul@gmail.com, with Dr. Thomas Shelby for Friday at 10:00 AM"):
+- STRICT DOCTOR PRESERVATION: You MUST respect the EXACT doctor requested by the user (e.g. "Dr. Walter White", "Walter White", "Dr. Ned Stark", "Dr. Tyrion Lannister", "Dr. Ragnar Lothbrok"). NEVER switch, default, or substitute Dr. Thomas Shelby or any other doctor when the user asked for a different doctor! For instance, Dr. Walter White is in Neurology, Dr. Thomas Shelby is in Cardiology.
+- For availability questions (e.g. "When is Dr. Walter White available?"): Call check_doctor_schedule with doctorName: "Dr. Walter White". Inform the user of their exact visiting days and hours.
+- When the user asks to BOOK an appointment (e.g. "Book an appointment for patient John Doe, email john@example.com, with Dr. Walter White for Monday at 10:00 AM"):
   a) Check if you have patientName and patientEmail. If missing, ask the user.
-  b) Once you have name and email, YOU MUST CALL the book_appointment tool! NEVER invent or hallucinate fake appointment IDs (such as APT-...) or pretend to book without calling book_appointment.
-  c) The book_appointment tool automatically verifies the doctor's visiting schedule and checks for slot clashes.
+  b) Pass the EXACT requested doctorName to book_appointment!
+  c) The book_appointment tool automatically verifies the doctor's visiting schedule and checks for slot clashes in the database.
   d) If book_appointment returns clash: true, explain the clash clearly to the user and recommend alternate visiting times.
   e) If book_appointment succeeds, provide the confirmed doctor name, date, time slot, and include the exact receiptUrl from the tool result as: [View & Download Official Appointment Slip](receiptUrl). Explain that anyone without logging in can view their full professional appointment slip and download/print it as PDF!
 
