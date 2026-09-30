@@ -864,6 +864,11 @@ export async function POST(req: NextRequest) {
 Answer concisely (2-4 sentences) using the retrieved documentation and structured tools.
 
 CRITICAL BEHAVIOR RULES:
+0. REAL BACKEND EXECUTION MANDATE:
+- You must NEVER simulate, pretend, or fabricate operations on your own ("in your head").
+- Every dynamic data retrieval (doctors, schedule, blood stock, medicines, departments, appointments, beds) and every database write action (booking appointments, registering blood donors, submitting emergency blood requisitions) MUST be executed through your provided backend tools which hit the live ASP.NET Core backend and MongoDB database.
+- If you do not execute the corresponding backend tool, the action does not exist in the database. Never generate fake database IDs, fake receipts, or simulated bookings.
+
 1. GENERAL INQUIRIES: When the user asks generally what you or the chatbot can do or what features exist (e.g. "What can you do?", "Help me", "What features do you have?", "Hello"), you must invite them to choose and list ONLY these feature names:
 What feature would you like to know about?
 - Blood Bank
