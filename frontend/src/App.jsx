@@ -23,6 +23,8 @@ import SupportForm from './features/shared/components/forms/SupportForm';
 import Home from './views/Home';
 import About from './views/About';
 import Doctors from './views/Doctors';
+import AppointmentSlip from './views/AppointmentSlip';
+import BloodSlip from './views/BloodSlip';
 
 // Auth components
 import DoctorSignUp from './features/auth/components/DoctorSignUp';
@@ -148,6 +150,9 @@ export default function App() {
               <Route path="/blood-availability" element={<BloodAvailability />} />
               <Route path="/blood-group" element={<BloodGroupDetails />} />
               <Route path="/blood-recipient" element={<BloodRecipient />} />
+              <Route path="/appointment-slip/:id" element={<AppointmentSlip />} />
+              <Route path="/blood-slip/:type/:id" element={<BloodSlip />} />
+              <Route path="/appointments" element={<Doctors />} />
             </Route>
 
             {/* Protected Doctor Routes - New Layout (Outside MainLayout) */}

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using HospitalManagement.Api.Models;
 using HospitalManagement.Api.Services;
@@ -25,6 +25,14 @@ public class BloodRecipientController : ControllerBase
         return Ok(list);
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var recipient = await _db.BloodRecipients.Find(r => r.Id == id).FirstOrDefaultAsync();
+        if (recipient == null) return NotFound(new { message = "Blood recipient request not found" });
+        return Ok(recipient);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] BloodRecipient request)
     {
@@ -43,6 +51,11 @@ public class BloodRecipientController : ControllerBase
         if (string.IsNullOrEmpty(request.BloodGroup) && !string.IsNullOrEmpty(request.BloodNeeded))
         {
             request.BloodGroup = request.BloodNeeded;
+        }
+
+        if (request.TotalBagsNeeded != null)
+        {
+            request.TotalBagsNeeded = request.TotalBagsNeeded.ToString();
         }
 
         request.CreatedAt = DateTime.UtcNow;

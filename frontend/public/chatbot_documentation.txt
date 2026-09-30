@@ -22,19 +22,24 @@ What feature would you like to know about?
 ### FEATURE 1: BLOOD BANK
 - Supported User Intents:
   - Check current blood availability and stock units for any blood group (e.g., A+, A-, B+, B-, AB+, AB-, O+, O-).
-  - Learn how to donate blood or request blood transfusion.
+  - Register as a volunteer blood donor or record a donation: The AI collects donor details (name, blood group, age, gender, phone, email, address) and calls `register_blood_donor`. The hospital inventory is automatically updated, and the user receives a link to view/print their official Blood Donor Certificate Pass without logging in (`/blood-slip/donor/{id}`).
+  - Submit an emergency blood requisition (take blood from the blood bank): The AI collects recipient details (name, blood group needed, bags needed, phone, hospital) and calls `request_blood`. The user receives a link to view/print their official Blood Requisition Slip without logging in (`/blood-slip/recipient/{id}`).
   - Understand blood group compatibility rules (e.g., O- is universal donor, AB+ is universal recipient).
 - Intent to API Mapping:
   - Real-time Blood Stock / Availability: Call Blood Bank API (`get_blood_availability` -> `/api/BloodAvailability`).
+  - Volunteer Blood Donor Registration: Call Blood Donor API (`register_blood_donor` -> `POST /api/BloodDonor`).
+  - Emergency Blood Requisition: Call Blood Recipient API (`request_blood` -> `POST /api/BloodRecipient`).
   - Blood Compatibility / Donation Rules: Answer directly from static documentation without calling an API. Always refer donors to [Blood Bank](/blood-bank).
 
 ### FEATURE 2: DOCTOR DETAILS & SPECIALTIES
 - Supported User Intents:
   - Find doctors by medical specialty or health condition (e.g., "heart specialist" / "cardiology", "neurologist" / "brain specialist", "pediatrician", "orthopedics", "dermatologist", "general physician").
-  - Check doctor availability, visiting hours, degrees, institute, and room numbers.
+  - Check doctor availability schedule, visiting days, and working hours.
+  - Detect appointment clashes with existing booked slots on a specific date.
   - Find a doctor by name or email.
 - Intent to API Mapping:
-  - Doctor Search & Availability: Call Doctor API (`search_doctors` -> `/api/Doctors/all` or `/api/Appointments/doctors/{department}`).
+  - Doctor Search & Details: Call Doctor API (`search_doctors` -> `/api/Doctors/all` or `/api/Appointments/doctors/{department}`).
+  - Doctor Schedule & Clash Detection: Call Schedule API (`check_doctor_schedule` -> checks doctor visiting days, existing bookings, and open slots).
   - Semantic Understanding: Inquiries for conditions like "chest pain", "heart problem", or "cardiology" all map to the Cardiology specialty. Inquiries for "skin rash" map to Dermatology, etc.
 
 ### FEATURE 3: DEPARTMENTS
@@ -51,10 +56,13 @@ What feature would you like to know about?
 
 ### FEATURE 5: APPOINTMENTS
 - Supported User Intents:
-  - Book an appointment with a doctor: The chatbot works as an active AGENT that can book the appointment directly into the hospital system. Requires patient name, patient email, preferred doctor or specialty, and date/time. The agent asks for any missing details, then calls the Appointment API (`book_appointment` -> `POST /api/Appointments`).
-  - Check existing booked appointments for a patient using their email address.
+  - Check Doctor Schedule & Clash Detection: The AI checks when the doctor is available and verifies if the requested slot clashes with an existing booked slot. If booked, it informs the user and suggests available open slots.
+  - Book an Appointment with a Doctor: The chatbot works as an active AGENT that books the appointment directly into the hospital system. Requires patient name, patient email, preferred doctor or specialty, date, and time. The agent asks for any missing details, prevents clashes, and calls the Appointment API (`book_appointment` -> `POST /api/Appointments`).
+  - Public Appointment Slip & PDF Download: Immediately after booking, the user is provided a direct link (`/appointment-slip/{id}`). Any user without logging in can view their full appointment slip with professional hospital design, verified token, and download/print it as a PDF!
+  - Check existing booked appointments for a patient using their email address (`get_patient_appointments`).
   - Cancel an appointment using the appointment ID (`cancel_appointment` -> `DELETE /api/Appointments/{id}`).
 - Intent to API Mapping:
+  - Schedule & Clash Check: Call Schedule API (`check_doctor_schedule`).
   - Agentic Appointment Booking: Call Appointment API (`book_appointment` -> `POST /api/Appointments`).
   - Check Booked Appointments: Call Appointment API (`get_patient_appointments` -> `/api/Appointments/patient/email/{email}`).
   - Cancel Booked Appointment: Call Appointment API (`cancel_appointment` -> `DELETE /api/Appointments/{id}`).

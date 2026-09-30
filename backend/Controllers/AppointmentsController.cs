@@ -19,6 +19,15 @@ public class AppointmentsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _db.Appointments.Find(_ => true).ToListAsync());
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        if (id == "departments" || id == "today-appointments") return BadRequest();
+        var appointment = await _db.Appointments.Find(a => a.Id == id).FirstOrDefaultAsync();
+        if (appointment == null) return NotFound(new { message = "Appointment not found" });
+        return Ok(appointment);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Appointment appointment)
     {

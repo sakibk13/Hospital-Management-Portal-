@@ -26,7 +26,6 @@ import {
   faCapsules,
   faCalendarCheck,
   faShieldHeart,
-  faStar,
   faPhoneAlt,
   faCheckCircle,
   faRobot,
@@ -159,27 +158,6 @@ const Home = () => {
       icon: faMicroscope,
       name: 'Diagnostic Pathology',
       desc: 'Fully automated high-precision clinical pathology, molecular diagnostics, and imaging.'
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Sarah Jenkins',
-      dept: 'Cardiology Patient',
-      stars: 5,
-      text: 'The cardiology team at HealingWave saved my life during an acute cardiac event. Their rapid response and state-of-the-art care were extraordinary. Highly professional doctors and caring nurses!'
-    },
-    {
-      name: 'Michael Rahim',
-      dept: 'Orthopaedic Surgery',
-      stars: 5,
-      text: 'I underwent a robotic knee replacement here. The entire process from online appointment booking to discharge and physical therapy was seamless, clean, and completely transparent.'
-    },
-    {
-      name: 'Ananya Roy',
-      dept: 'Paediatric Care',
-      stars: 5,
-      text: 'HealingWave provided top-notch care for my newborn in their NICU. The doctors kept us informed at every single milestone with utmost empathy. Thank you for your miraculous work!'
     }
   ];
 
@@ -522,39 +500,6 @@ const Home = () => {
               Instant digital access to lab reports, physician prescriptions, blood requests, and appointment history via the patient portal.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Patient Testimonials */}
-      <section className="testimonials-section">
-        <div className="section-head">
-          <span className="section-badge">
-            <FontAwesomeIcon icon={faStar} /> Patient Experiences
-          </span>
-          <h2 className="section-title">Stories of Healing &amp; Hope</h2>
-          <p className="section-subtitle">
-            Hear directly from the patients and families who entrusted their health to HealingWave.
-          </p>
-        </div>
-
-        <div className="testimonials-grid">
-          {testimonials.map((t, idx) => (
-            <div key={idx} className="testimonial-card">
-              <div className="testimonial-stars">
-                {[...Array(t.stars)].map((_, i) => (
-                  <FontAwesomeIcon key={i} icon={faStar} className="star-icon" />
-                ))}
-              </div>
-              <p className="testimonial-quote">"{t.text}"</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">{t.name.charAt(0)}</div>
-                <div>
-                  <h4 className="author-name">{t.name}</h4>
-                  <span className="author-dept">{t.dept}</span>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

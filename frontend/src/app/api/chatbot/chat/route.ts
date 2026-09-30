@@ -410,23 +410,159 @@ const getBedCabinAvailabilityTool = tool(
   }
 );
 
+function parseTargetDate(dateStr?: string): Date {
+  const now = new Date();
+  if (!dateStr) {
+    const d = new Date(now);
+    d.setDate(d.getDate() + 1);
+    return d;
+  }
+  const s = dateStr.toLowerCase().trim();
+  if (s.includes('today')) return new Date(now);
+  if (s.includes('tomorrow')) {
+    const d = new Date(now);
+    d.setDate(d.getDate() + 1);
+    return d;
+  }
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  for (let i = 0; i < days.length; i++) {
+    if (s.includes(days[i])) {
+      const d = new Date(now);
+      const currentDay = d.getDay();
+      let diff = i - currentDay;
+      if (diff <= 0) diff += 7;
+      d.setDate(d.getDate() + diff);
+      return d;
+    }
+  }
+  const parsed = new Date(dateStr);
+  if (!isNaN(parsed.getTime())) return parsed;
+  const d = new Date(now);
+  d.setDate(d.getDate() + 1);
+  return d;
+}
+
+const checkDoctorScheduleTool = tool(
+  async ({ doctorName, department, requestedDate, requestedTime }) => {
+    try {
+      const docRes = await fetch(`${backendOrigin}/api/Doctors/all`, { cache: 'no-store' });
+      if (!docRes.ok) return JSON.stringify({ error: 'Doctors directory unreachable' });
+      const doctors: any[] = await docRes.json();
+      const cleanName = doctorName ? doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim() : '';
+
+      const doctor = doctors.find((d: any) => {
+        if (cleanName) {
+          const fullName = `${d.firstName} ${d.lastName}`.toLowerCase();
+          if (fullName.includes(cleanName) || cleanName.includes(d.firstName.toLowerCase()) || cleanName.includes(d.lastName.toLowerCase())) {
+            return true;
+          }
+        }
+        if (department && d.department?.toLowerCase() === department.toLowerCase()) return true;
+        return false;
+      });
+
+      if (!doctor) {
+        return JSON.stringify({ error: `No doctor found matching "${doctorName || department}"` });
+      }
+
+      const docFullName = `Dr. ${doctor.firstName} ${doctor.lastName}`;
+      const availabilitySchedule = doctor.availability || 'Schedule upon request';
+
+      // Fetch existing appointments for this doctor to detect clashes
+      let existingAppointments: any[] = [];
+      if (doctor.email) {
+        try {
+          const appRes = await fetch(`${backendOrigin}/api/Appointments/doctor/email/${encodeURIComponent(doctor.email)}`, { cache: 'no-store' });
+          if (appRes.ok) existingAppointments = await appRes.json();
+        } catch { /* proceed */ }
+      }
+
+      const targetDate = parseTargetDate(requestedDate);
+      const targetDateStr = targetDate.toISOString().split('T')[0];
+      const dayOfWeek = targetDate.toLocaleDateString('en-US', { weekday: 'short' }); // "Mon", "Tue", etc.
+      const isVisitingDay = availabilitySchedule.toLowerCase().includes(dayOfWeek.toLowerCase());
+
+      // Find booked slots on this target date
+      const bookedOnDate = existingAppointments.filter((a: any) => {
+        if (!a.date) return false;
+        const aDateStr = new Date(a.date).toISOString().split('T')[0];
+        return aDateStr === targetDateStr && a.status !== 'cancelled';
+      });
+
+      const bookedSlots = bookedOnDate.map((a: any) => a.timeSlot);
+
+      let hasClash = false;
+      if (requestedTime) {
+        const normReq = requestedTime.toLowerCase().replace(/\s+/g, '');
+        hasClash = bookedSlots.some((slot: string) =>
+          slot.toLowerCase().replace(/\s+/g, '').includes(normReq) || normReq.includes(slot.toLowerCase().replace(/\s+/g, ''))
+        );
+      }
+
+      const standardSlots = [
+        '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM',
+        '11:30 AM', '12:00 PM', '02:00 PM', '02:30 PM',
+        '03:00 PM', '03:30 PM', '04:00 PM'
+      ];
+      const availableSlots = standardSlots.filter(s => !bookedSlots.some(b => b.toLowerCase().includes(s.toLowerCase())));
+
+      return JSON.stringify({
+        doctor: docFullName,
+        department: doctor.department,
+        specialty: doctor.specialty,
+        weeklyAvailability: availabilitySchedule,
+        targetDate: targetDate.toDateString(),
+        dayOfWeek,
+        isVisitingDay,
+        hasClash,
+        clashWarning: hasClash ? `The slot "${requestedTime}" on ${targetDate.toDateString()} is ALREADY BOOKED by another patient.` : null,
+        bookedSlots,
+        availableSlots: availableSlots.slice(0, 6),
+      });
+    } catch (err: any) {
+      console.error('[checkDoctorScheduleTool error]', err);
+      return JSON.stringify({ error: 'Failed to look up doctor schedule: ' + (err.message || String(err)) });
+    }
+  },
+  {
+    name: 'check_doctor_schedule',
+    description: 'Check doctor visiting schedule, working hours, and verify if a requested appointment date or time slot clashes with an already booked slot',
+    schema: z.object({
+      doctorName: z.string().optional().describe('Doctor name (e.g. Dr. Thomas Shelby or Shelby)'),
+      department: z.string().optional().describe('Department name (e.g. Cardiology, Neurology)'),
+      requestedDate: z.string().optional().describe('Preferred date for appointment (e.g. 2026-10-02, tomorrow)'),
+      requestedTime: z.string().optional().describe('Preferred time slot (e.g. 10:00 AM, 2:00 PM)'),
+    }),
+  }
+);
+
 const bookAppointmentTool = tool(
   async ({ patientName, patientEmail, patientPhone, doctorName, department, date, timeSlot }) => {
     try {
       let resolvedDoctorName = doctorName || '';
       let resolvedDoctorEmail = '';
       let resolvedDept = department || '';
+      let resolvedDoctor: any = null;
 
       if (doctorName || department) {
         try {
           const docRes = await fetch(`${backendOrigin}/api/Doctors/all`, { cache: 'no-store' });
           if (docRes.ok) {
             const doctors: any[] = await docRes.json();
-            const found = doctors.find((d: any) =>
-              (doctorName && `${d.firstName} ${d.lastName}`.toLowerCase().includes(doctorName.toLowerCase())) ||
-              (department && d.department?.toLowerCase() === department.toLowerCase())
-            );
+            const cleanDocName = doctorName ? doctorName.toLowerCase().replace(/^(dr\.?|doctor)\s+/i, '').trim() : '';
+
+            const found = doctors.find((d: any) => {
+              if (cleanDocName) {
+                const fullName = `${d.firstName} ${d.lastName}`.toLowerCase();
+                if (fullName.includes(cleanDocName) || cleanDocName.includes(d.firstName.toLowerCase()) || cleanDocName.includes(d.lastName.toLowerCase())) {
+                  return true;
+                }
+              }
+              if (department && d.department?.toLowerCase() === department.toLowerCase()) return true;
+              return false;
+            });
             if (found) {
+              resolvedDoctor = found;
               resolvedDoctorName = `Dr. ${found.firstName} ${found.lastName}`;
               resolvedDoctorEmail = found.email;
               resolvedDept = found.department || resolvedDept;
@@ -435,12 +571,47 @@ const bookAppointmentTool = tool(
         } catch { /* proceed */ }
       }
 
-      let appointmentDate = new Date();
-      if (date) {
-        const parsed = new Date(date);
-        if (!isNaN(parsed.getTime())) appointmentDate = parsed;
-      } else {
-        appointmentDate.setDate(appointmentDate.getDate() + 1);
+      const appointmentDate = parseTargetDate(date);
+
+      // Schedule Verification: Verify doctor visits on this day
+      if (resolvedDoctor && resolvedDoctor.availability) {
+        const dayOfWeek = appointmentDate.toLocaleDateString('en-US', { weekday: 'short' });
+        const isVisitingDay = resolvedDoctor.availability.toLowerCase().includes(dayOfWeek.toLowerCase());
+        if (!isVisitingDay) {
+          return JSON.stringify({
+            success: false,
+            clash: true,
+            message: `${resolvedDoctorName} is not available on ${appointmentDate.toLocaleDateString('en-US', { weekday: 'long' })}s. Their regular visiting hours are: ${resolvedDoctor.availability}. Please choose one of their visiting days.`,
+          });
+        }
+      }
+
+      const targetDateStr = appointmentDate.toISOString().split('T')[0];
+      const selectedSlot = timeSlot || '10:00 AM';
+
+      // Clash Prevention: Verify slot is not already taken
+      if (resolvedDoctorEmail) {
+        try {
+          const appRes = await fetch(`${backendOrigin}/api/Appointments/doctor/email/${encodeURIComponent(resolvedDoctorEmail)}`, { cache: 'no-store' });
+          if (appRes.ok) {
+            const existing: any[] = await appRes.json();
+            const normSelected = selectedSlot.toLowerCase().replace(/\s+/g, '');
+            const clash = existing.find((a: any) => {
+              if (!a.date || a.status === 'cancelled') return false;
+              const aDateStr = new Date(a.date).toISOString().split('T')[0];
+              const aSlotNorm = (a.timeSlot || '').toLowerCase().replace(/\s+/g, '');
+              return aDateStr === targetDateStr && (aSlotNorm.includes(normSelected) || normSelected.includes(aSlotNorm));
+            });
+
+            if (clash) {
+              return JSON.stringify({
+                success: false,
+                clash: true,
+                message: `The slot "${selectedSlot}" on ${appointmentDate.toDateString()} is already booked for ${resolvedDoctorName}. Please choose an alternate slot such as 10:30 AM, 11:30 AM, or 02:30 PM.`,
+              });
+            }
+          }
+        } catch { /* proceed */ }
       }
 
       const payload = {
@@ -451,8 +622,8 @@ const bookAppointmentTool = tool(
         doctorEmail: resolvedDoctorEmail,
         department: resolvedDept || 'General Medicine',
         date: appointmentDate.toISOString(),
-        timeSlot: timeSlot || 'Morning (10:00 AM)',
-        status: 'pending',
+        timeSlot: selectedSlot,
+        status: 'confirmed',
         paidStatus: 'unpaid',
       };
 
@@ -467,16 +638,19 @@ const bookAppointmentTool = tool(
       }
 
       const created = await res.json();
+      const apptId = created.id || created._id;
+
       return JSON.stringify({
         success: true,
         message: 'Appointment booked successfully!',
-        appointmentId: created.id || created._id,
+        appointmentId: apptId,
         doctor: resolvedDoctorName || 'Assigned Specialist',
         department: resolvedDept || 'General Medicine',
         patient: patientName,
         date: appointmentDate.toDateString(),
-        timeSlot: timeSlot || 'Morning (10:00 AM)',
-        status: 'pending',
+        timeSlot: selectedSlot,
+        status: 'confirmed',
+        receiptUrl: `/appointment-slip/${apptId}`,
       });
     } catch (err: any) {
       return JSON.stringify({ error: 'Failed to connect to appointments service: ' + err.message });
@@ -484,15 +658,15 @@ const bookAppointmentTool = tool(
   },
   {
     name: 'book_appointment',
-    description: 'Book an appointment with a doctor for a patient. Performs direct creation via Appointments API. Requires patientName and patientEmail; accepts patientPhone, doctorName, department, date, and timeSlot. If patient name or email is missing, ask the user first.',
+    description: 'Book an appointment with a doctor for a patient. Checks for schedule clashes and creates the record in the Appointments database. Requires patientName and patientEmail.',
     schema: z.object({
       patientName: z.string().describe('Full name of the patient'),
       patientEmail: z.string().describe('Email address of the patient'),
       patientPhone: z.string().optional().describe('Phone number of the patient'),
-      doctorName: z.string().optional().describe('Doctor name to book with (e.g., Dr. Mahmudul Hasan, Dr. Thomas Shelby)'),
+      doctorName: z.string().optional().describe('Doctor name to book with (e.g. Dr. Thomas Shelby)'),
       department: z.string().optional().describe('Department name (e.g. Cardiology, Neurology)'),
       date: z.string().optional().describe('Preferred appointment date (YYYY-MM-DD or readable date)'),
-      timeSlot: z.string().optional().describe('Preferred time slot, e.g. 10:00 AM, Evening, 4:00 PM'),
+      timeSlot: z.string().optional().describe('Preferred time slot, e.g. 10:00 AM, 11:30 AM, 02:00 PM'),
     }),
   }
 );
@@ -518,9 +692,119 @@ const cancelAppointmentTool = tool(
   }
 );
 
+const registerBloodDonorTool = tool(
+  async ({ name, bloodGroup, age, gender, phone, email, address }) => {
+    try {
+      const payload = {
+        name,
+        bloodGroup: bloodGroup.toUpperCase().trim(),
+        age: Number(age) || 25,
+        gender: gender || 'Not Specified',
+        phone: phone || '',
+        email: email || '',
+        address: address || '',
+        donationDate: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      };
+
+      const res = await fetch(`${backendOrigin}/api/BloodDonor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) return JSON.stringify({ error: 'Failed to register blood donor' });
+      const data = await res.json();
+      const donorId = data.donor?.id || data.donor?._id;
+
+      return JSON.stringify({
+        success: true,
+        message: 'Blood donor registered successfully! Inventory updated.',
+        donorId,
+        donorName: name,
+        bloodGroup: payload.bloodGroup,
+        donationDate: new Date().toDateString(),
+        receiptUrl: `/blood-slip/donor/${donorId}`,
+      });
+    } catch {
+      return JSON.stringify({ error: 'Blood donor service unreachable' });
+    }
+  },
+  {
+    name: 'register_blood_donor',
+    description: 'Register a volunteer blood donor or record a donation. Updates hospital blood bank stock and generates an official donor certificate slip.',
+    schema: z.object({
+      name: z.string().describe('Full name of the volunteer blood donor'),
+      bloodGroup: z.string().describe('Blood group (e.g. A+, O+, B+, AB+, O-, etc.)'),
+      age: z.number().describe('Age of the donor'),
+      gender: z.string().describe('Gender (Male, Female, Other)'),
+      phone: z.string().describe('Contact phone number'),
+      email: z.string().optional().describe('Email address'),
+      address: z.string().optional().describe('City or address'),
+    }),
+  }
+);
+
+const requestBloodTool = tool(
+  async ({ name, bloodGroup, bagsNeeded, phone, hospital, gender, age, email }) => {
+    try {
+      const payload = {
+        name,
+        bloodGroup: bloodGroup.toUpperCase().trim(),
+        bloodNeeded: bloodGroup.toUpperCase().trim(),
+        totalBagsNeeded: bagsNeeded || 1,
+        phone: phone || '',
+        hospital: hospital || 'HealingWave Hospital',
+        gender: gender || 'Not Specified',
+        age: Number(age) || 30,
+        email: email || '',
+        createdAt: new Date().toISOString(),
+      };
+
+      const res = await fetch(`${backendOrigin}/api/BloodRecipient`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) return JSON.stringify({ error: 'Failed to submit blood request' });
+      const data = await res.json();
+      const reqId = data.item?.id || data.item?._id;
+
+      return JSON.stringify({
+        success: true,
+        message: 'Emergency blood requisition submitted to HealingWave Blood Bank emergency queue!',
+        requestId: reqId,
+        recipientName: name,
+        bloodGroup: payload.bloodGroup,
+        bagsNeeded: payload.totalBagsNeeded,
+        hospital: payload.hospital,
+        receiptUrl: `/blood-slip/recipient/${reqId}`,
+      });
+    } catch {
+      return JSON.stringify({ error: 'Blood requisition service unreachable' });
+    }
+  },
+  {
+    name: 'request_blood',
+    description: 'Submit an emergency requisition to request or take blood from the blood bank. Generates an official blood requisition slip.',
+    schema: z.object({
+      name: z.string().describe('Patient or recipient full name needing blood'),
+      bloodGroup: z.string().describe('Blood group needed (e.g. A+, O-, B+, etc.)'),
+      bagsNeeded: z.number().describe('Number of blood bags needed (e.g. 1 or 2)'),
+      phone: z.string().describe('Contact phone number for verification'),
+      hospital: z.string().optional().describe('Hospital name (default: HealingWave Hospital)'),
+      gender: z.string().optional().describe('Gender'),
+      age: z.number().optional().describe('Age'),
+      email: z.string().optional().describe('Email address'),
+    }),
+  }
+);
+
 const tools = [
   bloodAvailabilityTool,
   searchDoctorsTool,
+  checkDoctorScheduleTool,
   getDepartmentsTool,
   getPatientDetailsTool,
   getPatientAppointmentsTool,
@@ -530,11 +814,14 @@ const tools = [
   getPatientPrescriptionsTool,
   getHealthCardTool,
   getBedCabinAvailabilityTool,
+  registerBloodDonorTool,
+  requestBloodTool,
 ];
 
 const toolMap: Record<string, any> = {
   get_blood_availability: bloodAvailabilityTool,
   search_doctors: searchDoctorsTool,
+  check_doctor_schedule: checkDoctorScheduleTool,
   get_departments: getDepartmentsTool,
   get_patient_details: getPatientDetailsTool,
   get_patient_appointments: getPatientAppointmentsTool,
@@ -544,6 +831,8 @@ const toolMap: Record<string, any> = {
   get_patient_prescriptions: getPatientPrescriptionsTool,
   get_health_card: getHealthCardTool,
   get_bed_cabin_availability: getBedCabinAvailabilityTool,
+  register_blood_donor: registerBloodDonorTool,
+  request_blood: requestBloodTool,
 };
 
 // -----------------------------------------------------------------------------
@@ -587,24 +876,40 @@ What feature would you like to know about?
 - Health Card
 - Bed & Cabin Booking
 
-2. AGENTIC ACTIONS (APPOINTMENT BOOKING):
-- You are an active AGENT capable of executing actions on behalf of the user, NOT merely a passive info bot.
-- When a user asks to book an appointment (e.g. "I want to book an appointment with Dr. Mahmudul Hasan", "Book an appointment for me with a cardiologist"):
-  a) Check if you already know their patient name, email, preferred date, and doctor/specialty.
-  b) If their name or email is missing, ask the user for their name and email (and preferred date/time slot).
-  c) Once you have their name and email (either from the current message or previous conversation history), IMMEDIATELY call the book_appointment tool to create the appointment in the hospital database!
-  d) After booking, give them a warm confirmation with the Doctor's name, Date, Time, and a link to view it on [Appointments](/appointments).
+2. DOCTOR AVAILABILITY, CLASH DETECTION & APPOINTMENTS:
+- For availability questions (e.g. "When is Dr. Thomas Shelby available?"): Call check_doctor_schedule. Inform them of their regular visiting days and hours.
+- When the user asks to BOOK an appointment (e.g. "Book an appointment for patient Rafiqul Islam, email rafiqul@gmail.com, with Dr. Thomas Shelby for Friday at 10:00 AM"):
+  a) Check if you have patientName and patientEmail. If missing, ask the user.
+  b) Once you have name and email, YOU MUST CALL the book_appointment tool! NEVER invent or hallucinate fake appointment IDs (such as APT-...) or pretend to book without calling book_appointment.
+  c) The book_appointment tool automatically verifies the doctor's visiting schedule and checks for slot clashes.
+  d) If book_appointment returns clash: true, explain the clash clearly to the user and recommend alternate visiting times.
+  e) If book_appointment succeeds, provide the confirmed doctor name, date, time slot, and include the exact receiptUrl from the tool result as: [View & Download Official Appointment Slip](receiptUrl). Explain that anyone without logging in can view their full professional appointment slip and download/print it as PDF!
 
-3. SEMANTIC UNDERSTANDING & INTENT ROUTING:
-- Inquiries like "heart specialist", "cardiology", "chest pain", or "heart doctor" must all be recognized as Cardiology and route to the doctor search tool.
+3. BLOOD BANK ACTIONS (DONATIONS & BLOOD REQUISITIONS):
+- You can register blood donors and submit emergency blood requisitions directly.
+- Voluntary Blood Donation:
+  a) Collect donor name, blood group, age, gender, and contact phone (email and city optional).
+  b) Call register_blood_donor.
+  c) Confirm the registration, report that hospital blood inventory has been incremented, and provide:
+     [View & Download Blood Donor Pass](/blood-slip/donor/{donorId})
+     (No login required to view and download/print the certificate).
+- Emergency Blood Requisition (Taking Blood):
+  a) Collect recipient/patient name, blood group needed, number of bags needed, contact phone, and hospital name.
+  b) Call request_blood.
+  c) Confirm the emergency request has been placed in the blood bank queue and provide:
+     [View & Download Blood Requisition Slip](/blood-slip/recipient/{requestId})
+     (No login required to view and download/print the emergency requisition slip).
+
+4. SEMANTIC UNDERSTANDING & INTENT ROUTING:
+- Inquiries like "heart specialist", "cardiology", "chest pain", or "heart doctor" must all be recognized as Cardiology.
 - Inquiries for live blood stock (e.g., "Do you have O- blood?", "Blood availability") must call the get_blood_availability tool.
 - Inquiries about blood compatibility rules (e.g. "Who can donate to O-?", "universal donor") must be answered directly from the documentation without calling an API.
 - Inquiries about patient details, appointments, or prescriptions should ask for the patient email if not already provided in conversation context.
 - For static/general questions (about hospital, contact, support), answer directly from retrieved documentation.
 - For queries completely outside hospital services (e.g. sports, coding, politics), politely decline and state that you assist with HealingWave Hospital services only.
 
-4. LINKS: Always use markdown links in the format [Page Name](/route), e.g. [Doctors](/doctors), [Blood Bank](/blood-bank), [Pharmacy](/pharmacy), [Support](/support), [Appointments](/appointments).
-5. SAFETY: You are not a medical practitioner. Never give definitive clinical diagnoses or prescribe drugs. Always advise seeing a specialist.
+5. LINKS: Always use markdown links in the format [Page Name](/route), e.g. [Doctors](/doctors), [Blood Bank](/blood-bank), [Pharmacy](/pharmacy), [Support](/support), [Appointments](/appointments).
+6. SAFETY: You are not a medical practitioner. Never give definitive clinical diagnoses or prescribe drugs. Always advise seeing a specialist.
 
 RETRIEVED DOCUMENTATION CONTEXT:
 ${retrievedDocs}`;
@@ -681,10 +986,15 @@ ${retrievedDocs}`;
             }
           }
 
+          const toolResultsContext = toolMessages
+            .map((tm) => (typeof tm.content === 'string' ? tm.content : JSON.stringify(tm.content)))
+            .join('\n\n');
+
           const finalResponse = await model.invoke([
             ...conversationMessages,
-            aiResponse,
-            ...toolMessages,
+            new HumanMessage(
+              `[SYSTEM NOTIFICATION - ACTION RESULTS]:\n${toolResultsContext}\n\nPlease formulate a warm, helpful, and concise final response for the user based strictly on the above action results. ALWAYS include any markdown links provided (such as appointment slip [View & Download Official Appointment Slip](/appointment-slip/{id}) or blood pass [View & Download Blood Donor Pass](/blood-slip/donor/{id})).`
+            ),
           ]);
 
           const finalContent = extractTextContent(finalResponse.content);

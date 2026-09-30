@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using HospitalManagement.Api.Models;
 using HospitalManagement.Api.Services;
@@ -24,6 +24,15 @@ public class BloodDonorController : ControllerBase
             .SortByDescending(d => d.CreatedAt)
             .ToListAsync();
         return Ok(donors);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        if (id == "details") return BadRequest();
+        var donor = await _db.BloodDonors.Find(d => d.Id == id).FirstOrDefaultAsync();
+        if (donor == null) return NotFound(new { message = "Blood donor record not found" });
+        return Ok(donor);
     }
 
     [HttpPost]
